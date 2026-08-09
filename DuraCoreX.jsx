@@ -177,7 +177,7 @@ function Navbar() {
         transition: "all 0.35s",
         padding: "0 5%",
       }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 60 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => scrollTo("home")}>
             <DXLogo size={34} />
             <div>
@@ -270,7 +270,7 @@ function Hero() {
         background: "linear-gradient(to right, rgba(4,12,7,0.88) 0%, rgba(4,12,7,0.65) 45%, rgba(4,12,7,0.2) 100%)",
       }} />
 
-      <div className="hero-grid" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center", width: "100%", position: "relative", zIndex: 1 }}>
+      <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center", width: "100%", position: "relative", zIndex: 1 }}>
         {/* Left — text */}
         <div>
           <div className="dx-hero-badge" style={{ display: "inline-block", background: "rgba(139,94,60,0.18)", border: "1px solid rgba(139,94,60,0.45)", borderRadius: 20, padding: "4px 12px", color: "#c9956d", fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 14, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "100%" }}>
