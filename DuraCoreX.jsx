@@ -893,7 +893,7 @@ function DealerEnquiry() {
               style={{ background: "#fff", padding: "44px 40px" }}>
 
               {/* Type selector */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: 28 }}>
+              <div className="dx-type-selector" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: 28 }}>
                 {TYPES.map(t => (
                   <button key={t.id} type="button" onClick={() => setForm({ ...form, type: t.id })}
                     style={{
@@ -958,6 +958,10 @@ function DealerEnquiry() {
       <style>{`
         @media(max-width:860px){ #dealer-enquiry .dx-form-grid{ grid-template-columns:1fr !important; } }
         @media(max-width:720px){ #dealer-enquiry>div>div>div:first-child{ display:none !important; } }
+        @media(max-width:520px){
+          #dealer-enquiry .dx-type-selector{ grid-template-columns:repeat(2,1fr) !important; }
+          #dealer-enquiry form{ padding:28px 18px !important; }
+        }
       `}</style>
     </section>
   );
