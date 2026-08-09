@@ -255,6 +255,7 @@ function Hero() {
         src="/hero-bg.png"
         alt=""
         aria-hidden="true"
+        className="dx-hero-sharp"
         style={{
           position: "absolute", top: 0, left: 0,
           width: "100%", height: "100%",
@@ -861,10 +862,10 @@ function DealerEnquiry() {
             <p style={{ color: "#a8d5b5", fontSize: 15, lineHeight: 1.7 }}>We'll get back to you within 24 hours.</p>
           </div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.6fr", gap: 0, borderRadius: 24, overflow: "hidden", border: "1.5px solid #e0ede6", boxShadow: "0 8px 40px rgba(26,77,46,0.08)" }}>
+          <div className="dx-enquiry-card" style={{ display: "grid", gridTemplateColumns: "1fr 1.6fr", gap: 0, borderRadius: 24, overflow: "hidden", border: "1.5px solid #e0ede6", boxShadow: "0 8px 40px rgba(26,77,46,0.08)" }}>
 
             {/* Left panel — dark */}
-            <div style={{ background: "linear-gradient(160deg,#0d2b1a,#1a4d2e)", padding: "44px 36px", display: "flex", flexDirection: "column" }}>
+            <div className="dx-enquiry-left" style={{ background: "linear-gradient(160deg,#0d2b1a,#1a4d2e)", padding: "44px 36px", display: "flex", flexDirection: "column" }}>
               <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "#8B5E3C", marginBottom: 10 }}>Dealer Enquiry</div>
               <h2 style={{ fontSize: 24, fontWeight: 800, fontFamily: "Georgia,serif", color: "#fff", lineHeight: 1.25, marginBottom: 14 }}>
                 Become a<br/>DuraCoreX Partner
@@ -957,7 +958,10 @@ function DealerEnquiry() {
       </div>
       <style>{`
         @media(max-width:860px){ #dealer-enquiry .dx-form-grid{ grid-template-columns:1fr !important; } }
-        @media(max-width:720px){ #dealer-enquiry>div>div>div:first-child{ display:none !important; } }
+        @media(max-width:720px){
+          #dealer-enquiry .dx-enquiry-card{ grid-template-columns:1fr !important; }
+          #dealer-enquiry .dx-enquiry-left{ display:none !important; }
+        }
         @media(max-width:520px){
           #dealer-enquiry .dx-type-selector{ grid-template-columns:repeat(2,1fr) !important; }
           #dealer-enquiry form{ padding:28px 18px !important; }
@@ -1119,6 +1123,9 @@ const GLOBAL_CSS = `
 
   /* ── Tablet (≤900px) ── */
   @media (max-width: 900px) {
+    /* Hero image — switch to cover so no black bars on portrait screens */
+    .dx-hero-sharp { object-fit: cover !important; object-position: top center !important; }
+
     /* Navbar */
     .dx-desktop-nav { display: none !important; }
     .dx-hamburger { display: flex !important; }
