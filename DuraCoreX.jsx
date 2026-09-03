@@ -282,15 +282,15 @@ function Hero() {
     }}>
       {/* Background image — cover fit for landscape images */}
       <img
-        src="/hero-bg.png"
+        src="/hero-bg1.png"
         alt=""
         aria-hidden="true"
         className="dx-hero-sharp"
         style={{
           position: "absolute", top: 0, left: 0,
           width: "100%", height: "100%",
-          objectFit: "cover",
-          objectPosition: "center center",
+          objectFit: "contain",
+          objectPosition: "right center",
           pointerEvents: "none", userSelect: "none",
         }}
       />
@@ -1210,6 +1210,8 @@ const GLOBAL_CSS = `
 
     /* Hero */
     #home { padding: 72px 5% 40px !important; }
+    /* Portrait image fills portrait screen perfectly with cover */
+    #home > img { object-fit: cover !important; object-position: center center !important; }
     .dx-hero-badge { font-size: 9px !important; letter-spacing: 1px !important; padding: 4px 10px !important; }
     #home h1 span { font-size: 32px !important; line-height: 1.2 !important; }
     #home p { font-size: 13px !important; line-height: 1.65 !important; margin-bottom: 20px !important; }
