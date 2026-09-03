@@ -62,11 +62,11 @@ const CATEGORIES = ["All", "Frames", "Shutters", "Bathroom Vanities", "Gates", "
 
 function DXLogo({ size = 34 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
-      <rect width="40" height="40" rx="8" fill="#1a4d2e" />
-      <text x="4" y="28" fontFamily="Georgia,serif" fontWeight="900" fontSize="22" fill="#8B5E3C">D</text>
-      <text x="20" y="28" fontFamily="Georgia,serif" fontWeight="900" fontSize="22" fill="#fff">X</text>
-    </svg>
+    <img
+      src="/dx-logo-final.png"
+      alt="DuraCoreX Logo"
+      style={{ height: size, width: "auto", objectFit: "contain", display: "block" }}
+    />
   );
 }
 
