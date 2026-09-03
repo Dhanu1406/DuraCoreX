@@ -14,5 +14,21 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+      // ── EmailJS config ─────────────────────────────────────────
+      // Replace these 3 values with your EmailJS credentials:
+      //   1. Sign up at https://emailjs.com
+      //   2. Create a Service → note the Service ID
+      //   3. Create a Template → note the Template ID
+      //   4. Go to Account → Public Key
+      window.EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";
+      window.EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+      window.EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";
+      // ───────────────────────────────────────────────────────────
+      document.addEventListener("DOMContentLoaded", () => {
+        if (window.emailjs) emailjs.init({ publicKey: window.EMAILJS_PUBLIC_KEY });
+      });
+    </script>
   </body>
 </html>

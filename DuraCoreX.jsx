@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 // ── Palette ────────────────────────────────────────────────────
 // Primary:   #1a4d2e  (dark forest green)
@@ -111,7 +112,7 @@ function WhatsAppButton() {
   const [hovered, setHovered] = useState(false);
   return (
     <a
-      href="https://wa.me/919XXXXXXXXX?text=Hi%20DuraCoreX%2C%20I%20am%20interested%20in%20WPC%20products"
+      href="https://wa.me/918904086113?text=Hi%20DuraCoreX%2C%20I%20am%20interested%20in%20WPC%20products"
       target="_blank"
       rel="noopener noreferrer"
       onMouseEnter={() => setHovered(true)}
@@ -150,7 +151,7 @@ function WhatsAppButton() {
 }
 
 // ── Navbar ─────────────────────────────────────────────────────
-const NAV_LINKS_SIMPLE = ["Home", "About", "Products", "Features", "Gallery", "Contact"];
+const NAV_LINKS_SIMPLE = ["Home", "About", "Products", "Features", "Contact"];
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -227,6 +228,49 @@ function Navbar() {
 }
 
 // ── Hero ───────────────────────────────────────────────────────
+const HERO_LINES = [
+  { text: "Build Smarter.", color: "#fff" },
+  { text: "Build Stronger.", color: "#c9956d" },
+  { text: "Build Stylish.", color: "#fff" },
+  { text: "Build with WPC.", color: "#fff" },
+];
+
+function HeroCyclingText() {
+  const [index, setIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const cycle = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIndex(i => (i + 1) % HERO_LINES.length);
+        setVisible(true);
+      }, 500);
+    }, 2500);
+    return () => clearInterval(cycle);
+  }, []);
+
+  const line = HERO_LINES[index];
+  return (
+    <h1 style={{ marginBottom: 14, minHeight: "2em" }}>
+      <span style={{
+        color: line.color,
+        fontSize: "clamp(22px, 4vw, 42px)",
+        fontWeight: 800,
+        fontFamily: "Georgia,serif",
+        letterSpacing: "-0.3px",
+        lineHeight: 1.2,
+        display: "inline-block",
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(12px)",
+        transition: "opacity 0.5s ease, transform 0.5s ease",
+      }}>
+        {line.text}
+      </span>
+    </h1>
+  );
+}
+
 function Hero() {
   return (
     <section id="home" style={{
@@ -236,21 +280,7 @@ function Hero() {
       position: "relative", overflow: "hidden",
       padding: "100px 5% 60px",
     }}>
-      {/* Layer 1: blurred fill — covers edges where portrait image doesn't reach */}
-      <img
-        src="/hero-bg.png"
-        alt=""
-        aria-hidden="true"
-        style={{
-          position: "absolute", top: 0, left: 0,
-          width: "100%", height: "100%",
-          objectFit: "cover",
-          filter: "blur(28px) brightness(0.45) saturate(1.2)",
-          transform: "scale(1.08)",
-          pointerEvents: "none", userSelect: "none",
-        }}
-      />
-      {/* Layer 2: sharp full image — objectFit contain so nothing is cropped */}
+      {/* Background image — cover fit for landscape images */}
       <img
         src="/hero-bg.png"
         alt=""
@@ -259,34 +289,30 @@ function Hero() {
         style={{
           position: "absolute", top: 0, left: 0,
           width: "100%", height: "100%",
-          objectFit: "contain",
+          objectFit: "cover",
           objectPosition: "center center",
           pointerEvents: "none", userSelect: "none",
         }}
       />
-      {/* Layer 3: dark overlay for text legibility */}
+      {/* Overlay — lighter so the beautiful image shows through */}
       <div style={{
         position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
-        background: "linear-gradient(to right, rgba(4,12,7,0.88) 0%, rgba(4,12,7,0.65) 45%, rgba(4,12,7,0.2) 100%)",
+        background: "linear-gradient(to right, rgba(4,12,7,0.72) 0%, rgba(4,12,7,0.45) 50%, rgba(4,12,7,0.15) 100%)",
       }} />
 
       <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center", width: "100%", position: "relative", zIndex: 1 }}>
         {/* Left — text */}
-        <div>
+        <div className="dx-hero-left">
           <div className="dx-hero-badge" style={{ display: "inline-block", background: "rgba(139,94,60,0.18)", border: "1px solid rgba(139,94,60,0.45)", borderRadius: 20, padding: "4px 12px", color: "#c9956d", fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 14, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "100%" }}>
-            Floresta WPC · Authorized Channel Partner · Karnataka
+            Authorized Channel Partner Floresta WPC Karnataka
           </div>
-          <h1 style={{ color: "#fff", fontSize: "clamp(20px,5vw,38px)", fontWeight: 700, lineHeight: 1.22, marginBottom: 14, fontFamily: "Georgia,serif", letterSpacing: "-0.3px" }}>
-            Build Smarter.<br />
-            <span style={{ color: "#c9956d" }}>Build Stronger.</span><br />
-            Build with WPC.
-          </h1>
+          <HeroCyclingText />
           <p style={{ color: "rgba(210,235,220,0.82)", fontSize: 13, lineHeight: 1.75, marginBottom: 24, maxWidth: 400 }}>
-            Karnataka's trusted destination for premium Wood Polymer Composite solutions — serving builders, architects, contractors, and homeowners.
+            Karnataka's trusted destination for premium Wood Polymer Composite (WPC) solutions — serving builders, architects, contractors, carpenters, and homeowners.
           </p>
 
           {/* Buttons + logo box — constrained to button row width */}
-          <div style={{ display: "inline-flex", flexDirection: "column", gap: 10 }}>
+          <div className="dx-hero-content-wrap" style={{ display: "inline-flex", flexDirection: "column", gap: 10 }}>
             <div className="dx-hero-btns" style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <button onClick={() => scrollTo("products")}
                 style={{ background: "#8B5E3C", color: "#fff", border: "none", borderRadius: 7, padding: "10px 22px", fontWeight: 600, fontSize: 13, cursor: "pointer", transition: "all 0.2s", boxShadow: "0 4px 16px rgba(139,94,60,0.35)" }}
@@ -315,7 +341,7 @@ function Hero() {
               gap: 12,
             }}>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: "#8B5E3C" }}>Authorized Partner</span>
+                <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: "#8B5E3C" }}>Authorized Channel Partner</span>
                 <span style={{ fontSize: 8, color: "#4a6358", letterSpacing: 0.5 }}>Karnataka</span>
               </div>
               <img src="/floresta-logo-full.png" alt="Floresta WPC" style={{ height: 44, width: "auto", objectFit: "contain", borderRadius: 6 }} />
@@ -325,14 +351,15 @@ function Hero() {
 
         {/* Right — feature bullets */}
         <div className="hero-card" style={{ display: "flex", justifyContent: "flex-end" }}>
-          {/* Animated running border wrapper */}
-          <div className="dx-running-border" style={{ borderRadius: 20, padding: 2, position: "relative" }}>
+          <div style={{ borderRadius: 20, padding: 2, position: "relative" }}>
           <div style={{
-            background: "linear-gradient(145deg, rgba(10,28,18,0.92), rgba(20,50,32,0.88))",
-            backdropFilter: "blur(20px)",
+            background: "transparent",
+            backdropFilter: "none",
+            WebkitBackdropFilter: "none",
             borderRadius: 17,
             padding: "28px 30px",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)",
+            boxShadow: "none",
+            border: "1px solid rgba(255,255,255,0.3)",
             position: "relative", zIndex: 1,
           }}>
             {/* Header */}
@@ -343,15 +370,20 @@ function Hero() {
 
             {/* Bullets */}
             {[
-              "100% Genuine — Actual WPC",
+              "100% Genuine — 'Actual' WPC",
               "European Technology",
               "100% Waterproof & Moisture Proof",
               "Termite & Borer Resistant",
               "Fire Retardant Grade",
               "Eco-Friendly & Sustainable",
+              "Carpenter Friendly",
+              "Screwable & Nailable",
+              "Router & CNC Friendly",
               "High Screw Holding Capacity",
+              "Low Maintenance",
+              "No Harmful Chemicals",
             ].map((item, i) => (
-              <div key={item} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: i < 6 ? 11 : 0 }}>
+              <div key={item} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: i < 11 ? 11 : 0 }}>
                 <div style={{
                   width: 6, height: 6, borderRadius: "50%",
                   background: i < 2 ? "#c9956d" : "#8B5E3C",
@@ -360,7 +392,7 @@ function Hero() {
                 }} />
                 <span style={{
                   color: i < 2 ? "#f0d5bc" : "#d4ead9",
-                  fontSize: 12.5,
+                  fontSize: 12,
                   fontWeight: i < 2 ? 600 : 500,
                 }}>{item}</span>
               </div>
@@ -454,7 +486,7 @@ function About() {
           {/* Left — DuraCoreX brand image */}
           <FadeIn>
             <img
-              src="/dx-brand.png"
+              src="/about-hero.png"
               alt="DuraCoreX — Strength. Style. Sustainability."
               style={{
                 width: "100%",
@@ -470,25 +502,28 @@ function About() {
           <FadeIn delay={150}>
             <div style={{ color: "#8B5E3C", fontSize: 10, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", marginBottom: 12 }}>Who We Are</div>
             <h2 style={{ color: "#1a4d2e", fontSize: "clamp(22px,2.4vw,32px)", fontWeight: 700, fontFamily: "Georgia,serif", lineHeight: 1.25, marginBottom: 20 }}>
-              Karnataka's Trusted<br />WPC Solutions Hub
+              Karnataka's Trusted<br />WPC Hub
             </h2>
             {/* Floresta logo — big & bright */}
             <div style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "#fff", border: "2px solid #2d6a4f", borderRadius: 14, padding: "12px 20px", marginBottom: 24, boxShadow: "0 4px 18px rgba(26,77,46,0.12)" }}>
               <img src="/floresta-logo2.png" alt="Floresta WPC" style={{ height: 52, width: "auto", objectFit: "contain", display: "block" }} />
               <div style={{ width: 1, height: 36, background: "#d0e8d8" }} />
               <div>
-                <div style={{ fontSize: 10, color: "#8B5E3C", fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 3 }}>Authorized Partner</div>
+                <div style={{ fontSize: 10, color: "#8B5E3C", fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 3 }}>Authorized Channel Partner</div>
                 <div style={{ fontSize: 12, color: "#1a4d2e", fontWeight: 600 }}>Karnataka, India</div>
               </div>
             </div>
             <p style={{ color: "#4a6358", fontSize: 15, lineHeight: 1.85, marginBottom: 16 }}>
-              <strong style={{ color: "#1a4d2e" }}>DuraCoreX</strong> is Karnataka's premier destination for premium Wood Polymer Composite solutions. As the <strong style={{ color: "#8B5E3C" }}>Authorized Channel Partner for Floresta WPC</strong>, we bring advanced European technology products directly to builders, architects, contractors, and homeowners across the state.
+              As the <strong style={{ color: "#8B5E3C" }}>Authorized Channel Partner for Floresta WPC</strong>, we bring premium quality WPC products that combine innovation, durability, and sustainability. We provide builders, contractors, architects, dealers, homeowners, and interior designers with <strong style={{ color: "#1a4d2e" }}>'Actual WPC'</strong> materials that outperform conventional wood and plywood.
+            </p>
+            <p style={{ color: "#4a6358", fontSize: 15, lineHeight: 1.85, marginBottom: 16 }}>
+              <strong style={{ color: "#1a4d2e" }}>DuraCoreX</strong> specializes in advanced premium quality WPC (Wood Polymer Composite) products and interior solutions for residential, commercial, and institutional projects across Karnataka by offering high-performance WPC products that are built to last.
             </p>
             <p style={{ color: "#4a6358", fontSize: 15, lineHeight: 1.85, marginBottom: 28 }}>
               What sets us apart is our <strong style={{ color: "#1a4d2e" }}>in-house joinery and fabrication facility</strong> — equipped with precision machinery to deliver customized WPC doors, windows, kitchen units, and interior panels end-to-end, from selection to installation.
             </p>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {["Builders", "Architects", "Contractors", "Homeowners", "Interior Designers"].map(t => (
+              {["Builders", "Architects", "Contractors", "Homeowners", "Interior Designers", "Fabricators"].map(t => (
                 <span key={t} style={{ background: "#e8f5e9", color: "#1a4d2e", border: "1px solid #b8dfc4", borderRadius: 20, padding: "5px 14px", fontSize: 12, fontWeight: 600 }}>{t}</span>
               ))}
             </div>
@@ -524,11 +559,13 @@ const PRODUCTS_EXT = [
 
 function ProductCard({ product, index }) {
   const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
   return (
     <FadeIn delay={index * 90}>
       <div
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+        onClick={() => navigate("/products")}
         style={{
           borderRadius: 18,
           overflow: "hidden",
@@ -537,7 +574,7 @@ function ProductCard({ product, index }) {
           transform: hovered ? "translateY(-8px)" : "translateY(0)",
           boxShadow: hovered ? "0 20px 48px rgba(26,77,46,0.14)" : "0 2px 12px rgba(0,0,0,0.04)",
           background: "#fff",
-          cursor: "default",
+          cursor: "pointer",
           height: "100%",
           display: "flex",
           flexDirection: "column",
@@ -638,21 +675,84 @@ function ProductCard({ product, index }) {
   );
 }
 
-function Products() {
+function FeaturedProductCard({ navigate }) {
+  const [hovered, setHovered] = useState(false);
+  const features = [
+    { icon: "💧", label: "100% Waterproof" },
+    { icon: "🛡️", label: "Termite Proof" },
+    { icon: "🔧", label: "Zero Maintenance" },
+    { icon: "🌿", label: "Eco-Friendly" },
+    { icon: "🔩", label: "High Screw Holding" },
+    { icon: "🔥", label: "Fire Retardant" },
+  ];
   return (
-    <section id="products" style={{ padding: "60px 5% 80px", background: "#fff" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <SectionHeader
-          tag="What We Offer"
-          title="WPC Products for Every Space"
-          subtitle="Doors, windows, boards & custom interiors — all genuine Floresta WPC."
-        />
-        <div className="dx-prod-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
-          {PRODUCTS_EXT.map((p, i) => (
-            <ProductCard key={p.title} product={p} index={i} />
-          ))}
+    <div style={{ background: "linear-gradient(135deg,#f7f3ee,#eef5f0)", borderRadius: 24, padding: "32px 5%", margin: "0 0 8px", position: "relative", overflow: "hidden" }}>
+      {/* Decorative circle */}
+      <div style={{ position: "absolute", top: -80, right: -80, width: 320, height: 320, borderRadius: "50%", background: "rgba(139,94,60,0.07)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: -60, left: -60, width: 220, height: 220, borderRadius: "50%", background: "rgba(26,77,46,0.05)", pointerEvents: "none" }} />
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center", position: "relative", zIndex: 1, maxWidth: 1100, margin: "0 auto" }}
+        className="dx-feat-banner-a">
+
+        {/* Left — content */}
+        <div>
+          <h3 style={{ color: "#1a2e1a", fontSize: "clamp(20px,2.5vw,32px)", fontWeight: 800, fontFamily: "Georgia,serif", margin: "0 0 6px", lineHeight: 1.2 }}>WPC Door Frames</h3>
+          <div style={{ width: 40, height: 3, background: "linear-gradient(to right,#8B5E3C,#c9956d)", borderRadius: 2, marginBottom: 14 }} />
+          <p style={{ color: "#4a5e4a", fontSize: 13.5, lineHeight: 1.7, margin: "0 0 20px", maxWidth: 380 }}>
+            Termite-proof, waterproof, and zero maintenance — built to outlast conventional wood.
+          </p>
+
+          {/* Feature pills */}
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
+            {features.slice(0, 4).map(f => (
+              <span key={f.label} style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "#fff", border: "1px solid #dde8e2", borderRadius: 20, padding: "5px 12px", fontSize: 11, fontWeight: 600, color: "#2d4a2d" }}>
+                <span style={{ fontSize: 13 }}>{f.icon}</span> {f.label}
+              </span>
+            ))}
+          </div>
+
+          {/* Buttons */}
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <button onClick={() => navigate("/products")}
+              onMouseEnter={e => { e.target.style.background = "#2d6a4f"; e.target.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.target.style.background = "#1a4d2e"; e.target.style.transform = "translateY(0)"; }}
+              style={{ background: "#1a4d2e", color: "#fff", border: "none", borderRadius: 9, padding: "11px 22px", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.25s", boxShadow: "0 4px 14px rgba(26,77,46,0.22)" }}>
+              View All Products →
+            </button>
+            <button onClick={() => { const el = document.getElementById("dealer-enquiry"); if(el) el.scrollIntoView({behavior:"smooth"}); }}
+              onMouseEnter={e => { e.target.style.background = "#1a4d2e"; e.target.style.color = "#fff"; }}
+              onMouseLeave={e => { e.target.style.background = "transparent"; e.target.style.color = "#1a4d2e"; }}
+              style={{ background: "transparent", color: "#1a4d2e", border: "1.5px solid #1a4d2e", borderRadius: 9, padding: "11px 20px", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.25s" }}>
+              Enquire Now
+            </button>
+          </div>
+        </div>
+
+        {/* Right — image */}
+        <div style={{ position: "relative", borderRadius: 20, overflow: "hidden", boxShadow: "0 16px 48px rgba(0,0,0,0.14)", transition: "transform 0.4s ease", transform: hovered ? "scale(1.02)" : "scale(1)" }}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}>
+          <img src="/featured-door.jpeg" alt="WPC Door Frames"
+            style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", objectPosition: "center", display: "block", background: "#f7f3ee" }} />
         </div>
       </div>
+    </div>
+  );
+}
+
+function Products() {
+  const navigate = useNavigate();
+  return (
+    <section id="products" style={{ padding: "60px 5% 80px", background: "#fff" }}>
+      <SectionHeader
+        tag="What We Offer"
+        title="WPC Products for Every Space"
+        subtitle="Doors, windows, boards & custom interiors — all genuine Floresta WPC."
+      />
+
+      {/* Featured Hero Card — Full image with overlay */}
+      <FeaturedProductCard navigate={navigate} />
+      <style>{`@media(max-width:640px){ .dx-feat-banner-a{ grid-template-columns:1fr !important; } }`}</style>
     </section>
   );
 }
@@ -691,114 +791,75 @@ function Features() {
   const next = () => setCurrent(c => (c + 1) % total);
 
   return (
-    <section id="features" style={{ padding: "60px 0 30px", background: "#f4f9f6", position: "relative", overflow: "hidden" }}>
-      {/* Background accents */}
-      <div style={{ position: "absolute", top: -100, right: -100, width: 400, height: 400, borderRadius: "50%", background: "rgba(139,94,60,0.07)", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: -80, left: -80, width: 280, height: 280, borderRadius: "50%", background: "rgba(255,255,255,0.025)", pointerEvents: "none" }} />
+    <section id="features" style={{ padding: "60px 5% 60px", background: "#f4f9f6", position: "relative", overflow: "hidden" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "stretch", maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 1 }} className="dx-features-grid">
 
-      {/* Header */}
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 5%", position: "relative", zIndex: 1, marginBottom: 28 }}>
-        <SectionHeader
-          tag="Key Features"
-          title="Why Floresta WPC Stands Apart"
-          subtitle="15 reasons why Floresta WPC is Karnataka's preferred wood alternative."
-        />
-      </div>
-
-      {/* Carousel */}
-      <div
-        style={{ position: "relative", zIndex: 1 }}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-      >
-        {/* Slides track */}
-        <div style={{ overflow: "hidden" }}>
-          <div style={{
-            display: "flex",
-            transform: `translateX(-${current * 100}%)`,
-            transition: "transform 0.55s cubic-bezier(0.4,0,0.2,1)",
-          }}>
-            {FEAT_SLIDES.map((slide) => (
-              <div key={slide.img} style={{
-                minWidth: "100%",
-                display: "flex",
-                justifyContent: "center",
-                padding: "0 80px",
-                boxSizing: "border-box",
-              }}>
-                <div style={{
-                  width: "100%",
-                  maxWidth: 340,
-                  borderRadius: 22,
-                  overflow: "hidden",
-                  boxShadow: "0 32px 80px rgba(0,0,0,0.55)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                }}>
-                  <img
-                    src={slide.img}
-                    alt={slide.label}
-                    style={{ width: "100%", height: "auto", display: "block" }}
-                  />
-                </div>
-              </div>
-            ))}
+        {/* LEFT — Clients */}
+        <div>
+          <div className="dx-clients-card" style={{ background: "#fff", borderRadius: 16, padding: "16px 16px 12px", boxShadow: "0 2px 16px rgba(26,77,46,0.07)", boxSizing: "border-box", height: 400, display: "flex", flexDirection: "column" }}>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "#8B5E3C", marginBottom: 10, flexShrink: 0 }}>Our Clients</div>
+            <div style={{ flex: 1, borderRadius: 8, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <img src="/our-clients.png" alt="Our Clients"
+                style={{ width: "100%", height: "100%", display: "block", objectFit: "contain", objectPosition: "center" }} />
+            </div>
           </div>
         </div>
 
-        {/* Arrow buttons */}
-        <button onClick={prev} style={{
-          position: "absolute", left: "3%", top: "50%", transform: "translateY(-50%)",
-          background: "#fff", border: "1.5px solid #c8e0d2",
-          color: "#1a4d2e", borderRadius: "50%",
-          width: 48, height: 48, fontSize: 22, cursor: "pointer",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
-          transition: "all 0.25s", zIndex: 2,
-        }}
-          onMouseEnter={e => { e.currentTarget.style.background = "#8B5E3C"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.borderColor = "#8B5E3C"; }}
-          onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#1a4d2e"; e.currentTarget.style.borderColor = "#c8e0d2"; }}
-        >‹</button>
-        <button onClick={next} style={{
-          position: "absolute", right: "3%", top: "50%", transform: "translateY(-50%)",
-          background: "#fff", border: "1.5px solid #c8e0d2",
-          color: "#1a4d2e", borderRadius: "50%",
-          width: 48, height: 48, fontSize: 22, cursor: "pointer",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
-          transition: "all 0.25s", zIndex: 2,
-        }}
-          onMouseEnter={e => { e.currentTarget.style.background = "#8B5E3C"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.borderColor = "#8B5E3C"; }}
-          onMouseLeave={e => { e.currentTarget.style.background = "#fff"; e.currentTarget.style.color = "#1a4d2e"; e.currentTarget.style.borderColor = "#c8e0d2"; }}
-        >›</button>
+        {/* RIGHT — Compact feature carousel */}
+        <div>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: "#8B5E3C", marginBottom: 10 }}>Why Choose WPC</div>
+
+          {/* Card */}
+          <div className="dx-carousel-card" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
+            style={{ background: "#fff", borderRadius: 18, boxShadow: "0 4px 24px rgba(26,77,46,0.09)", border: "1.5px solid #e4efe8", height: 364, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+
+            {/* Image strip — absolutely positioned so overflow clips correctly */}
+            <div style={{ position: "relative", flex: 1, overflow: "hidden" }}>
+              <div style={{ position: "absolute", inset: 0, display: "flex" }}>
+                {FEAT_SLIDES.map((slide, i) => (
+                  <div key={slide.img} style={{
+                    position: "absolute", inset: 0,
+                    opacity: i === current ? 1 : 0,
+                    transition: "opacity 0.5s ease",
+                    background: "#f8faf8",
+                  }}>
+                    <img src={slide.img} alt={slide.label}
+                      style={{ width: "100%", height: "100%", objectFit: "contain", objectPosition: "center", display: "block" }} />
+                  </div>
+                ))}
+              </div>
+
+              {/* Prev / Next */}
+              <button onClick={prev}
+                style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.92)", border: "none", borderRadius: "50%", width: 32, height: 32, fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.12)", color: "#1a4d2e", zIndex: 2 }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#1a4d2e"; e.currentTarget.style.color = "#fff"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.92)"; e.currentTarget.style.color = "#1a4d2e"; }}>‹</button>
+              <button onClick={next}
+                style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.92)", border: "none", borderRadius: "50%", width: 32, height: 32, fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.12)", color: "#1a4d2e", zIndex: 2 }}
+                onMouseEnter={e => { e.currentTarget.style.background = "#1a4d2e"; e.currentTarget.style.color = "#fff"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.92)"; e.currentTarget.style.color = "#1a4d2e"; }}>›</button>
+
+              {/* Counter badge */}
+              <div style={{ position: "absolute", bottom: 8, right: 10, background: "rgba(26,77,46,0.75)", color: "#fff", fontSize: 10, fontWeight: 700, borderRadius: 20, padding: "3px 9px", zIndex: 2 }}>
+                {current + 1} / {total}
+              </div>
+            </div>
+
+            {/* Label + dots */}
+            <div style={{ padding: "12px 16px 14px", borderTop: "1px solid #eef4f0", flexShrink: 0 }}>
+              <div style={{ color: "#1a4d2e", fontSize: 13, fontWeight: 700, marginBottom: 8, minHeight: "1.3em" }}>{FEAT_SLIDES[current].label}</div>
+              <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                {FEAT_SLIDES.map((_, i) => (
+                  <button key={i} onClick={() => setCurrent(i)}
+                    style={{ width: i === current ? 20 : 6, height: 6, borderRadius: 3, border: "none", cursor: "pointer", padding: 0, background: i === current ? "#8B5E3C" : "#c8ddd1", transition: "all 0.3s" }} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Slide label */}
-      <div style={{ textAlign: "center", marginTop: 28, padding: "0 5%" }}>
-        <span style={{ color: "#1a4d2e", fontSize: 15, fontWeight: 600, letterSpacing: 0.3 }}>
-          {FEAT_SLIDES[current].label}
-        </span>
-      </div>
-
-      {/* Dot indicators */}
-      <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 20 }}>
-        {FEAT_SLIDES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            style={{
-              width: i === current ? 28 : 8,
-              height: 8, borderRadius: 4, border: "none", cursor: "pointer", padding: 0,
-              background: i === current ? "#8B5E3C" : "rgba(26,77,46,0.2)",
-              transition: "all 0.35s ease",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Counter */}
-      <div style={{ textAlign: "center", marginTop: 10, color: "rgba(26,77,46,0.4)", fontSize: 11, letterSpacing: 1 }}>
-        {current + 1} / {total}
-      </div>
+      <style>{`@media(max-width:768px){ .dx-features-grid{ grid-template-columns:1fr !important; gap:36px !important; } }`}</style>
     </section>
   );
 }
@@ -835,7 +896,7 @@ function Gallery() {
 // ── Dealer Enquiry ─────────────────────────────────────────────
 function DealerEnquiry() {
   const [form, setForm] = useState({ name: "", business: "", city: "", phone: "", email: "", type: "Become a Dealer", message: "" });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const handle = e => setForm({ ...form, [e.target.name]: e.target.value });
 
   const inp = {
@@ -846,8 +907,6 @@ function DealerEnquiry() {
 
   const TYPES = [
     { id: "Become a Dealer", icon: "🤝" },
-    { id: "Product Purchase", icon: "🛒" },
-    { id: "Custom Project", icon: "🏗️" },
     { id: "General Inquiry", icon: "💬" },
   ];
 
@@ -855,7 +914,7 @@ function DealerEnquiry() {
     <section id="dealer-enquiry" style={{ padding: "40px 5% 70px", background: "#fff" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
-        {submitted ? (
+        {status === "success" ? (
           <div style={{ background: "linear-gradient(135deg,#1a4d2e,#2d6a4f)", borderRadius: 24, padding: "80px 40px", textAlign: "center", color: "#fff" }}>
             <div style={{ fontSize: 56, marginBottom: 20 }}>✅</div>
             <h3 style={{ fontSize: 24, fontWeight: 800, fontFamily: "Georgia,serif", marginBottom: 10 }}>Enquiry Received!</h3>
@@ -890,11 +949,32 @@ function DealerEnquiry() {
             </div>
 
             {/* Right panel — form */}
-            <form onSubmit={e => { e.preventDefault(); setSubmitted(true); }}
-              style={{ background: "#fff", padding: "44px 40px" }}>
+            <form onSubmit={async e => {
+              e.preventDefault();
+              setStatus("sending");
+              try {
+                await window.emailjs.send(
+                  window.EMAILJS_SERVICE_ID,
+                  window.EMAILJS_TEMPLATE_ID,
+                  {
+                    enquiry_type: form.type,
+                    from_name:    form.name,
+                    business:     form.business,
+                    city:         form.city,
+                    phone:        form.phone,
+                    reply_to:     form.email,
+                    message:      form.message || "—",
+                  }
+                );
+                setStatus("success");
+              } catch (err) {
+                console.error("EmailJS error:", err);
+                setStatus("error");
+              }
+            }} style={{ background: "#fff", padding: "44px 40px" }}>
 
               {/* Type selector */}
-              <div className="dx-type-selector" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 8, marginBottom: 28 }}>
+              <div className="dx-type-selector" style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 8, marginBottom: 28 }}>
                 {TYPES.map(t => (
                   <button key={t.id} type="button" onClick={() => setForm({ ...form, type: t.id })}
                     style={{
@@ -942,12 +1022,18 @@ function DealerEnquiry() {
                   onBlur={e => { e.target.style.borderColor = "#dde8e2"; e.target.style.background = "#fafcfb"; }} />
               </div>
 
-              <button type="submit"
-                style={{ width: "100%", background: "#1a4d2e", color: "#fff", border: "none", borderRadius: 10, padding: "14px", fontWeight: 700, fontSize: 14, cursor: "pointer", letterSpacing: 0.3, transition: "all 0.2s" }}
-                onMouseEnter={e => { e.target.style.background = "#2d6a4f"; e.target.style.transform = "translateY(-1px)"; }}
-                onMouseLeave={e => { e.target.style.background = "#1a4d2e"; e.target.style.transform = "translateY(0)"; }}>
-                Submit Enquiry →
+              <button type="submit" disabled={status === "sending"}
+                style={{ width: "100%", background: status === "sending" ? "#7a9e8a" : "#1a4d2e", color: "#fff", border: "none", borderRadius: 10, padding: "14px", fontWeight: 700, fontSize: 14, cursor: status === "sending" ? "not-allowed" : "pointer", letterSpacing: 0.3, transition: "all 0.2s" }}
+                onMouseEnter={e => { if(status !== "sending"){ e.target.style.background = "#2d6a4f"; e.target.style.transform = "translateY(-1px)"; }}}
+                onMouseLeave={e => { if(status !== "sending"){ e.target.style.background = "#1a4d2e"; e.target.style.transform = "translateY(0)"; }}}>
+                {status === "sending" ? "Sending…" : "Submit Enquiry →"}
               </button>
+
+              {status === "error" && (
+                <p style={{ textAlign: "center", fontSize: 12, color: "#c0392b", marginTop: 10, fontWeight: 600 }}>
+                  Something went wrong. Please try again or contact us directly.
+                </p>
+              )}
 
               <p style={{ textAlign: "center", fontSize: 11, color: "#9ab5a5", marginTop: 14 }}>
                 We respond within 24 hours · Mon–Sat, 9am–6pm
@@ -963,7 +1049,6 @@ function DealerEnquiry() {
           #dealer-enquiry .dx-enquiry-left{ display:none !important; }
         }
         @media(max-width:520px){
-          #dealer-enquiry .dx-type-selector{ grid-template-columns:repeat(2,1fr) !important; }
           #dealer-enquiry form{ padding:28px 18px !important; }
         }
       `}</style>
@@ -996,8 +1081,7 @@ function Contact() {
           <div style={{ background: "#fff", borderRadius: 16, border: "1.5px solid #e0ede6", overflow: "hidden" }}>
             {[
               { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a4d2e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>, label: "Location", value: "DuraCoreX — The WPC Hub", sub: "Bangalore, Karnataka, India" },
-              { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a4d2e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>, label: "Phone", value: "+91 XXXXX XXXXX", sub: "Mon – Sat, 9:00 AM – 6:00 PM" },
-              { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a4d2e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>, label: "Email", value: "info@duracorex.com", sub: "support@duracorex.com" },
+              { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a4d2e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>, label: "Phone", value: "+91 8904086113", sub: "Mon – Sat, 9:00 AM – 6:00 PM" },
               { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a4d2e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, label: "Hours", value: "Monday – Saturday", sub: "9:00 AM – 6:00 PM  ·  Sunday Closed" },
             ].map((item, i, arr) => (
               <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: i < arr.length - 1 ? "1px solid #f0f6f2" : "none" }}>
@@ -1017,7 +1101,7 @@ function Contact() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
 
             {/* Call */}
-            <a href="tel:+919XXXXXXXXX"
+            <a href="tel:+918904086113"
               style={{ background: "#1a4d2e", borderRadius: 12, padding: "14px 18px", display: "flex", alignItems: "center", gap: 12, textDecoration: "none", border: "1.5px solid #2d6a4f", transition: "opacity 0.2s" }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.88"}
               onMouseLeave={e => e.currentTarget.style.opacity = "1"}>
@@ -1026,7 +1110,7 @@ function Contact() {
               </div>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>Call Us Directly</div>
-                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.65)" }}>+91 XXXXX XXXXX</div>
+                <div style={{ fontSize: 11, color: "rgba(255,255,255,0.65)" }}>+91 8904086113</div>
               </div>
               <span style={{ marginLeft: "auto", color: "#fff", fontSize: 18 }}>→</span>
             </a>
@@ -1036,8 +1120,7 @@ function Contact() {
               <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: "#8B5E3C", marginBottom: 12 }}>Follow Us</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {[
-                  { href: "https://instagram.com/duracorex", icon: IG_SVG, bg: "linear-gradient(135deg,#f09433,#dc2743,#bc1888)", label: "Instagram", handle: "@duracorex", color: "#bc1888", rowBg: "#fff5f9", border: "#ffd6e8" },
-                  { href: "https://facebook.com/duracorex", icon: FB_SVG, bg: "#1877f2", label: "Facebook", handle: "DuraCoreX", color: "#1877f2", rowBg: "#f0f5ff", border: "#d0dcff" },
+                  { href: "https://www.instagram.com/duracorex_wpchub?igsi=MWJqanNqM296bzZxdQ%3D%3D", icon: IG_SVG, bg: "linear-gradient(135deg,#f09433,#dc2743,#bc1888)", label: "Instagram", handle: "@duracorex", color: "#bc1888", rowBg: "#fff5f9", border: "#ffd6e8" },
                 ].map(s => (
                   <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                     style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", borderRadius: 9, background: s.rowBg, border: `1px solid ${s.border}`, textDecoration: "none", transition: "opacity 0.2s" }}
@@ -1063,42 +1146,18 @@ function Contact() {
 
 // ── Footer ─────────────────────────────────────────────────────
 function Footer() {
-  const links = ["About", "Products", "Features", "Gallery", "Contact"];
-  const products = ["WPC Door Frames", "WPC Door Shutters", "WPC Window Frames", "WPC Boards", "Kitchen Interiors"];
-
   return (
-    <footer style={{ background: "#0a1f12", padding: "52px 5% 28px", color: "#a8d5b5" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div id="dx-footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, marginBottom: 44 }}>
+    <footer style={{ background: "#0a1f12", padding: "36px 5% 24px", color: "#a8d5b5" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 20 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <DXLogo size={36} />
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
-              <DXLogo size={40} />
-              <div>
-                <div style={{ color: "#fff", fontWeight: 800, fontSize: 18 }}>DuraCoreX</div>
-                <div style={{ color: "#a8d5b5", fontSize: 10, letterSpacing: 2 }}>THE WPC HUB</div>
-              </div>
-            </div>
-            <p style={{ fontSize: 14, lineHeight: 1.8, maxWidth: 300, color: "#7ab08d" }}>
-              Authorized Channel Partner for Floresta WPC in Karnataka. Building smarter, stronger, greener spaces.
-            </p>
-          </div>
-          <div>
-            <div style={{ color: "#fff", fontWeight: 700, fontSize: 13, marginBottom: 18, letterSpacing: 0.5 }}>Quick Links</div>
-            {links.map(l => (
-              <div key={l} onClick={() => scrollTo(l)} style={{ color: "#7ab08d", fontSize: 14, marginBottom: 11, cursor: "pointer", transition: "color 0.2s" }}
-                onMouseEnter={e => e.target.style.color = "#fff"} onMouseLeave={e => e.target.style.color = "#7ab08d"}>{l}</div>
-            ))}
-          </div>
-          <div>
-            <div style={{ color: "#fff", fontWeight: 700, fontSize: 13, marginBottom: 18 }}>Products</div>
-            {products.map(p => <div key={p} style={{ color: "#7ab08d", fontSize: 14, marginBottom: 11 }}>{p}</div>)}
+            <div style={{ color: "#fff", fontWeight: 800, fontSize: 16 }}>DuraCoreX</div>
+            <div style={{ color: "#a8d5b5", fontSize: 9, letterSpacing: 2 }}>THE WPC HUB</div>
           </div>
         </div>
-
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 24, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <div style={{ fontSize: 13 }}>© 2026 DuraCoreX — The WPC Hub. All rights reserved.</div>
-          <div style={{ fontSize: 13, color: "#c9956d", fontWeight: 600 }}>Build Smarter. Build Stronger. Build with Floresta WPC.</div>
-        </div>
+        <div style={{ fontSize: 13, color: "#7ab08d" }}>© 2026 DuraCoreX — The WPC Hub. All rights reserved.</div>
+        <div style={{ fontSize: 13, color: "#c9956d", fontWeight: 600 }}>Build Smarter. Build Stronger. Build with Floresta WPC.</div>
       </div>
     </footer>
   );
@@ -1123,101 +1182,100 @@ const GLOBAL_CSS = `
 
   /* ── Tablet (≤900px) ── */
   @media (max-width: 900px) {
-    /* Hero image — switch to cover so no black bars on portrait screens */
-    .dx-hero-sharp { object-fit: cover !important; object-position: top center !important; }
-
     /* Navbar */
     .dx-desktop-nav { display: none !important; }
     .dx-hamburger { display: flex !important; }
 
-    /* Hero: stack, hide feature card, lock to full screen */
-    .hero-grid { grid-template-columns: 1fr !important; }
+    /* Hero */
+    .hero-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
     .hero-card { display: none !important; }
-    #home { height: 100dvh !important; min-height: 100dvh !important; padding: 70px 5% 32px !important; display: flex !important; align-items: center !important; }
+    #home { min-height: 100dvh !important; padding: 80px 6% 48px !important; display: flex !important; align-items: center !important; }
+    .dx-hero-left { text-align: center !important; }
+    .dx-hero-badge { margin: 0 auto 14px !important; }
+    .dx-hero-content-wrap { display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; }
+    .dx-hero-btns { justify-content: center !important; width: 100% !important; }
+    .dx-hero-btns button { flex: 1 !important; min-width: 130px !important; max-width: 200px !important; }
 
     /* About */
-    #about > div { grid-template-columns: 1fr !important; gap: 32px !important; }
-    #about > div > div:first-child { display: none !important; }
+    .dx-about-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
 
-    /* Products 2-col */
-    .dx-prod-grid { grid-template-columns: repeat(2,1fr) !important; }
-
-    /* Features 2-col */
-    .dx-feat-grid { grid-template-columns: repeat(2,1fr) !important; }
-
-    /* Dealers 2-col */
-    .dx-deal-grid { grid-template-columns: repeat(2,1fr) !important; }
-
-    /* Contact 2-col */
-    .dx-contact-grid { grid-template-columns: repeat(2,1fr) !important; }
-    .dx-cta { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+    /* Features */
+    .dx-features-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
   }
 
   /* ── Mobile (≤600px) ── */
   @media (max-width: 600px) {
-    /* Global section padding */
-    section { padding-left: 4% !important; padding-right: 4% !important; }
-    section[style*="padding"] { padding-top: 56px !important; padding-bottom: 56px !important; }
+    /* Global */
+    section { padding-left: 5% !important; padding-right: 5% !important; }
 
-    /* Hero — locked to full screen height, content centered */
-    #home { height: 100dvh !important; min-height: 100dvh !important; padding: 70px 4% 28px !important; }
-    #home h1 { margin-bottom: 8px !important; }
-    #home p { margin-bottom: 16px !important; }
-
-    /* Counter strip: 2×2 on mobile */
-    .dx-counter-grid { grid-template-columns: repeat(2,1fr) !important; gap: 16px !important; }
-
-    /* Products 1-col */
-    .dx-prod-grid { grid-template-columns: 1fr !important; }
-
-    /* Features 1-col */
-    .dx-feat-grid { grid-template-columns: 1fr !important; }
-
-    /* Gallery: single col */
-    .dx-gal-grid { grid-template-columns: 1fr !important; }
-    .dx-gal-grid > div { grid-column: span 1 !important; height: 160px !important; }
-
-    /* Dealers 1-col */
-    .dx-deal-grid { grid-template-columns: 1fr !important; }
-
-    /* Enquiry form: 1-col */
-    .dx-form-grid { grid-template-columns: 1fr !important; }
-    #dealer-enquiry form { padding: 24px 16px !important; }
-
-    /* Contact 1-col */
-    .dx-contact-grid { grid-template-columns: 1fr !important; }
-
-    /* Footer 1-col */
-    #dx-footer-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
-
-    /* Buttons full-width */
+    /* Hero */
+    #home { padding: 72px 5% 40px !important; }
+    .dx-hero-badge { font-size: 9px !important; letter-spacing: 1px !important; padding: 4px 10px !important; }
+    #home h1 span { font-size: 26px !important; line-height: 1.25 !important; }
+    #home p { font-size: 13px !important; line-height: 1.65 !important; margin-bottom: 20px !important; }
     .dx-hero-btns { flex-direction: column !important; width: 100% !important; }
-    .dx-hero-btns button { width: 100% !important; text-align: center !important; }
+    .dx-hero-btns button { width: 100% !important; min-width: unset !important; max-width: unset !important; text-align: center !important; flex: none !important; }
+    .dx-hero-content-wrap > div:last-child { width: 100% !important; box-sizing: border-box !important; }
 
-    /* WhatsApp button — smaller, bottom-right clear of buttons */
-    a[href*="wa.me"] { bottom: 16px !important; right: 16px !important; padding: 11px !important; }
+    /* Counter strip */
+    .dx-counter-grid { grid-template-columns: repeat(2,1fr) !important; gap: 12px !important; }
+    .dx-counter-grid > div > div:first-child { font-size: 30px !important; }
+    .dx-counter-grid > div > div:last-child { font-size: 12px !important; }
 
-    /* Hero badge — shrink font so it fits one line */
-    .dx-hero-badge { font-size: 8px !important; letter-spacing: 1px !important; padding: 3px 10px !important; }
+    /* About */
+    #about > div[style] { padding: 40px 5% !important; }
 
-    /* Hero heading — cap at 22px on mobile */
-    #home h1 { font-size: 22px !important; line-height: 1.3 !important; margin-bottom: 10px !important; }
+    /* Featured product card */
+    .dx-feat-banner-a { grid-template-columns: 1fr !important; gap: 20px !important; }
 
-    /* Hero paragraph — smaller and tighter */
-    #home p { font-size: 12px !important; line-height: 1.6 !important; margin-bottom: 18px !important; }
+    /* Features cards */
+    .dx-clients-card { height: auto !important; min-height: 240px !important; }
+    .dx-carousel-card { height: 300px !important; }
+
+    /* Gallery */
+    .dx-gal-grid { grid-template-columns: 1fr !important; }
+    .dx-gal-grid > div { grid-column: span 1 !important; height: 120px !important; }
+
+    /* Dealer Enquiry */
+    #dealer-enquiry .dx-enquiry-card { grid-template-columns: 1fr !important; }
+    #dealer-enquiry .dx-enquiry-left { display: none !important; }
+    #dealer-enquiry form { padding: 24px 18px !important; }
+    .dx-form-grid { grid-template-columns: 1fr !important; }
+    .dx-type-selector { grid-template-columns: repeat(2,1fr) !important; }
+
+    /* Contact */
+    .dx-contact-main { grid-template-columns: 1fr !important; }
+    #contact { padding: 56px 5% !important; }
+
+    /* Footer */
+    footer > div { flex-direction: column !important; align-items: flex-start !important; gap: 14px !important; }
+
+    /* WhatsApp float */
+    a[href*="wa.me"] { bottom: 14px !important; right: 14px !important; padding: 12px !important; }
   }
 
-  /* ── Small mobile (≤380px) ── */
-  @media (max-width: 380px) {
-    #home h1 { font-size: 20px !important; }
-    .dx-counter-grid > div > div:first-child { font-size: 28px !important; }
-    nav { padding: 0 3% !important; }
+  /* ── Small mobile (≤400px) ── */
+  @media (max-width: 400px) {
+    #home h1 span { font-size: 22px !important; }
+    .dx-counter-grid > div > div:first-child { font-size: 26px !important; }
+    nav { padding: 0 4% !important; }
     .dx-hero-badge { display: none !important; }
+    .dx-carousel-card { height: 240px !important; }
   }
 `;
 
 // ── App ────────────────────────────────────────────────────────
 export default function App() {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("enquiry") === "1") {
+      setTimeout(() => {
+        const el = document.getElementById("dealer-enquiry");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    }
+  }, []);
+
   return (
     <div style={{ fontFamily: "'Segoe UI',system-ui,-apple-system,sans-serif", margin: 0, padding: 0 }}>
       <style>{GLOBAL_CSS}</style>
@@ -1227,7 +1285,6 @@ export default function App() {
         <About />
         <Products />
         <Features />
-        <Gallery />
         <DealerEnquiry />
         <Contact />
         <Footer />
