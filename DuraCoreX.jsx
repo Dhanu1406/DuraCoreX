@@ -255,11 +255,11 @@ function HeroCyclingText() {
     <h1 style={{ marginBottom: 14, minHeight: "2em" }}>
       <span style={{
         color: line.color,
-        fontSize: "clamp(22px, 4vw, 42px)",
+        fontSize: "clamp(32px, 5vw, 64px)",
         fontWeight: 800,
         fontFamily: "Georgia,serif",
-        letterSpacing: "-0.3px",
-        lineHeight: 1.2,
+        letterSpacing: "-0.5px",
+        lineHeight: 1.15,
         display: "inline-block",
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(12px)",
@@ -297,7 +297,7 @@ function Hero() {
       {/* Overlay — lighter so the beautiful image shows through */}
       <div style={{
         position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
-        background: "linear-gradient(to right, rgba(4,12,7,0.72) 0%, rgba(4,12,7,0.45) 50%, rgba(4,12,7,0.15) 100%)",
+        background: "linear-gradient(to right, rgba(4,12,7,0.78) 0%, rgba(4,12,7,0.42) 55%, rgba(4,12,7,0.08) 100%)",
       }} />
 
       <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center", width: "100%", position: "relative", zIndex: 1 }}>
@@ -307,7 +307,7 @@ function Hero() {
             Authorized Channel Partner Floresta WPC Karnataka
           </div>
           <HeroCyclingText />
-          <p style={{ color: "rgba(210,235,220,0.82)", fontSize: 13, lineHeight: 1.75, marginBottom: 24, maxWidth: 400 }}>
+          <p style={{ color: "rgba(210,235,220,0.88)", fontSize: 15, lineHeight: 1.75, marginBottom: 28, maxWidth: 460 }}>
             Karnataka's trusted destination for premium Wood Polymer Composite (WPC) solutions — serving builders, architects, contractors, carpenters, and homeowners.
           </p>
 
@@ -315,13 +315,13 @@ function Hero() {
           <div className="dx-hero-content-wrap" style={{ display: "inline-flex", flexDirection: "column", gap: 10 }}>
             <div className="dx-hero-btns" style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <button onClick={() => scrollTo("products")}
-                style={{ background: "#8B5E3C", color: "#fff", border: "none", borderRadius: 7, padding: "10px 22px", fontWeight: 600, fontSize: 13, cursor: "pointer", transition: "all 0.2s", boxShadow: "0 4px 16px rgba(139,94,60,0.35)" }}
+                style={{ background: "#8B5E3C", color: "#fff", border: "none", borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 14, cursor: "pointer", transition: "all 0.2s", boxShadow: "0 4px 20px rgba(139,94,60,0.4)" }}
                 onMouseEnter={e => { e.target.style.background = "#6e4a2f"; e.target.style.transform = "translateY(-2px)"; }}
                 onMouseLeave={e => { e.target.style.background = "#8B5E3C"; e.target.style.transform = "translateY(0)"; }}>
                 Explore Products →
               </button>
               <button onClick={() => scrollTo("dealer-enquiry")}
-                style={{ background: "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,0.35)", borderRadius: 7, padding: "10px 22px", fontWeight: 600, fontSize: 13, cursor: "pointer", transition: "all 0.2s" }}
+                style={{ background: "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,0.45)", borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 14, cursor: "pointer", transition: "all 0.2s" }}
                 onMouseEnter={e => { e.target.style.borderColor = "#fff"; e.target.style.background = "rgba(207, 191, 191, 0.85)"; }}
                 onMouseLeave={e => { e.target.style.borderColor = "rgba(255,255,255,0.35)"; e.target.style.background = "transparent"; }}>
                 Dealer Enquiry
@@ -1211,7 +1211,7 @@ const GLOBAL_CSS = `
     /* Hero */
     #home { padding: 72px 5% 40px !important; }
     .dx-hero-badge { font-size: 9px !important; letter-spacing: 1px !important; padding: 4px 10px !important; }
-    #home h1 span { font-size: 26px !important; line-height: 1.25 !important; }
+    #home h1 span { font-size: 32px !important; line-height: 1.2 !important; }
     #home p { font-size: 13px !important; line-height: 1.65 !important; margin-bottom: 20px !important; }
     .dx-hero-btns { flex-direction: column !important; width: 100% !important; }
     .dx-hero-btns button { width: 100% !important; min-width: unset !important; max-width: unset !important; text-align: center !important; flex: none !important; }
@@ -1256,7 +1256,7 @@ const GLOBAL_CSS = `
 
   /* ── Small mobile (≤400px) ── */
   @media (max-width: 400px) {
-    #home h1 span { font-size: 22px !important; }
+    #home h1 span { font-size: 28px !important; }
     .dx-counter-grid > div > div:first-child { font-size: 26px !important; }
     nav { padding: 0 4% !important; }
     .dx-hero-badge { display: none !important; }
