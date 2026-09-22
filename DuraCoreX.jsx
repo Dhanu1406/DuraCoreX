@@ -172,9 +172,9 @@ function Navbar() {
         left: 0,
         right: 0,
         zIndex: 1000,
-        background: scrolled ? "rgba(255,255,255,0.98)" : "rgba(255,255,255,0.92)",
+        background: scrolled ? "rgba(18,22,18,0.97)" : "rgba(18,22,18,0.88)",
         backdropFilter: "blur(14px)",
-        boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.1)" : "0 1px 8px rgba(0,0,0,0.08)",
+        boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.4)" : "0 1px 8px rgba(0,0,0,0.2)",
         transition: "all 0.35s",
         padding: "0 5%",
       }}>
@@ -182,8 +182,14 @@ function Navbar() {
           <div style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} onClick={() => scrollTo("home")}>
             <DXLogo size={34} />
             <div>
-              <div style={{ color: "#1a4d2e", fontWeight: 800, fontSize: 16, letterSpacing: 0.5, lineHeight: 1 }}>DuraCoreX</div>
-              <div style={{ color: "#8B5E3C", fontSize: 8, letterSpacing: 1.5, textTransform: "uppercase" }}>The WPC Hub</div>
+              <div style={{ fontWeight: 800, fontSize: 16, letterSpacing: 0.5, lineHeight: 1.1 }}>
+                <span style={{ color: "#ffffff" }}>DuraCore</span><span style={{ color: "#E8720C" }}>X</span>
+              </div>
+              <div style={{ fontSize: 8, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.75)", display: "flex", alignItems: "center", gap: 4 }}>
+                <span style={{ color: "#E8720C", fontSize: 9 }}>—</span>
+                <span>The <span style={{ color: "#E8720C" }}>WPC</span> HUB</span>
+                <span style={{ color: "#E8720C", fontSize: 9 }}>—</span>
+              </div>
             </div>
           </div>
 
@@ -191,9 +197,9 @@ function Navbar() {
           <div style={{ display: "flex", gap: 28, alignItems: "center" }} className="dx-desktop-nav">
             {NAV_LINKS_SIMPLE.map((link) => (
               <button key={link} onClick={() => { setMenuOpen(false); scrollTo(link); }}
-                style={{ background: "none", border: "none", color: "#1a3a24", fontWeight: 600, fontSize: 13, cursor: "pointer", letterSpacing: 0.5, padding: "4px 0", borderBottom: "2px solid transparent", transition: "all 0.2s" }}
-                onMouseEnter={(e) => { e.target.style.borderBottomColor = "#8B5E3C"; e.target.style.color = "#1a4d2e"; }}
-                onMouseLeave={(e) => { e.target.style.borderBottomColor = "transparent"; e.target.style.color = "#1a3a24"; }}>
+                style={{ background: "none", border: "none", color: "rgba(255,255,255,0.85)", fontWeight: 600, fontSize: 13, cursor: "pointer", letterSpacing: 0.5, padding: "4px 0", borderBottom: "2px solid transparent", transition: "all 0.2s" }}
+                onMouseEnter={(e) => { e.target.style.borderBottomColor = "#E8720C"; e.target.style.color = "#fff"; }}
+                onMouseLeave={(e) => { e.target.style.borderBottomColor = "transparent"; e.target.style.color = "rgba(255,255,255,0.85)"; }}>
                 {link}
               </button>
             ))}
@@ -203,7 +209,7 @@ function Navbar() {
           <button onClick={() => setMenuOpen(!menuOpen)}
             style={{ background: "none", border: "none", cursor: "pointer", display: "none", flexDirection: "column", gap: 5 }}
             className="dx-hamburger">
-            {[0,1,2].map(i => <div key={i} style={{ width: 24, height: 2, background: "#1a4d2e", borderRadius: 2 }} />)}
+            {[0,1,2].map(i => <div key={i} style={{ width: 24, height: 2, background: "#ffffff", borderRadius: 2 }} />)}
           </button>
         </div>
 
@@ -289,8 +295,8 @@ function Hero() {
         style={{
           position: "absolute", top: 0, left: 0,
           width: "100%", height: "100%",
-          objectFit: "contain",
-          objectPosition: "right center",
+          objectFit: "cover",
+          objectPosition: "center center",
           pointerEvents: "none", userSelect: "none",
         }}
       />
@@ -349,56 +355,45 @@ function Hero() {
           </div>
         </div>
 
-        {/* Right — feature bullets */}
-        <div className="hero-card" style={{ display: "flex", justifyContent: "flex-end" }}>
-          <div style={{ borderRadius: 20, padding: 2, position: "relative" }}>
-          <div style={{
-            background: "transparent",
-            backdropFilter: "none",
-            WebkitBackdropFilter: "none",
-            borderRadius: 17,
-            padding: "28px 30px",
-            boxShadow: "none",
-            border: "1px solid rgba(255,255,255,0.3)",
-            position: "relative", zIndex: 1,
-          }}>
-            {/* Header */}
-            <div style={{ marginBottom: 18 }}>
-              <div style={{ color: "#8B5E3C", fontSize: 9, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase", marginBottom: 4 }}>Build with Floresta WPC</div>
-              <div style={{ width: 32, height: 2, background: "linear-gradient(to right, #8B5E3C, transparent)", borderRadius: 2 }} />
-            </div>
-
-            {/* Bullets */}
+        {/* Right — feature icons list */}
+        <div className="hero-card" style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
             {[
-              "100% Genuine — 'Actual' WPC",
-              "European Technology",
-              "100% Waterproof & Moisture Proof",
-              "Termite & Borer Resistant",
-              "Fire Retardant Grade",
-              "Eco-Friendly & Sustainable",
-              "Carpenter Friendly",
-              "Screwable & Nailable",
-              "Router & CNC Friendly",
-              "High Screw Holding Capacity",
-              "Low Maintenance",
-              "No Harmful Chemicals",
-            ].map((item, i) => (
-              <div key={item} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: i < 11 ? 11 : 0 }}>
+              { d: "M20 6 9 17 4 12",                                                                              label: "100% Genuine — 'Actual' WPC",    hi: true },
+              { d: "M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zM12 8v4l3 3",                                         label: "European Technology",             hi: true },
+              { d: "M12 2C8 7 4 9 4 14a8 8 0 0 0 16 0c0-5-4-7-8-12z",                                            label: "100% Waterproof & Moisture Proof" },
+              { d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",                                                 label: "Termite & Borer Resistant" },
+              { d: "M12 2c0 6-6 8-6 14a6 6 0 0 0 12 0c0-6-6-8-6-14z",                                            label: "Fire Retardant Grade" },
+              { d: "M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z",                                              label: "Eco-Friendly & Sustainable" },
+              { d: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z", label: "Carpenter Friendly" },
+              { d: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",                                  label: "Screwable & Nailable" },
+              { d: "M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM12 18v3M8 21h8",   label: "Router & CNC Friendly" },
+              { d: "M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zM12 6v6l4 2",                                         label: "High Screw Holding Capacity" },
+              { d: "M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z",                                      label: "Low Maintenance" },
+              { d: "M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-6-6zM9 3v6h6",                    label: "No Harmful Chemicals" },
+            ].map((item) => (
+              <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{
-                  width: 6, height: 6, borderRadius: "50%",
-                  background: i < 2 ? "#c9956d" : "#8B5E3C",
-                  flexShrink: 0,
-                  boxShadow: i < 2 ? "0 0 6px rgba(201,149,109,0.6)" : "none",
-                }} />
+                  width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
+                  border: `1.5px solid ${item.hi ? "rgba(201,149,109,0.9)" : "rgba(255,255,255,0.4)"}`,
+                  background: item.hi ? "rgba(139,94,60,0.28)" : "rgba(0,0,0,0.25)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                    stroke={item.hi ? "#f0c898" : "rgba(255,255,255,0.9)"}
+                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={item.d} />
+                  </svg>
+                </div>
                 <span style={{
-                  color: i < 2 ? "#f0d5bc" : "#d4ead9",
-                  fontSize: 12,
-                  fontWeight: i < 2 ? 600 : 500,
-                }}>{item}</span>
+                  color: item.hi ? "#f0d5bc" : "rgba(255,255,255,0.9)",
+                  fontSize: 12.5,
+                  fontWeight: item.hi ? 700 : 500,
+                  lineHeight: 1.3,
+                }}>{item.label}</span>
               </div>
             ))}
           </div>
-          </div>{/* end running border wrapper */}
         </div>
       </div>
 
@@ -1152,8 +1147,12 @@ function Footer() {
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <DXLogo size={36} />
           <div>
-            <div style={{ color: "#fff", fontWeight: 800, fontSize: 16 }}>DuraCoreX</div>
-            <div style={{ color: "#a8d5b5", fontSize: 9, letterSpacing: 2 }}>THE WPC HUB</div>
+            <div style={{ fontWeight: 800, fontSize: 16 }}><span style={{ color: "#fff" }}>DuraCore</span><span style={{ color: "#E8720C" }}>X</span></div>
+            <div style={{ fontSize: 8, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.75)", display: "flex", alignItems: "center", gap: 4 }}>
+                <span style={{ color: "#E8720C", fontSize: 9 }}>—</span>
+                <span>The <span style={{ color: "#E8720C" }}>WPC</span> HUB</span>
+                <span style={{ color: "#E8720C", fontSize: 9 }}>—</span>
+              </div>
           </div>
         </div>
         <div style={{ fontSize: 13, color: "#7ab08d" }}>© 2026 DuraCoreX — The WPC Hub. All rights reserved.</div>

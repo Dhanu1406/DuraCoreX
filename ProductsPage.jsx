@@ -89,8 +89,12 @@ export default function ProductsPage() {
           <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} onClick={() => navigate("/")}>
             <DXLogo size={34} />
             <div>
-              <div style={{ color: "#1a4d2e", fontWeight: 800, fontSize: 16, letterSpacing: 0.5, lineHeight: 1 }}>DuraCoreX</div>
-              <div style={{ color: "#8B5E3C", fontSize: 8, letterSpacing: 1.5, textTransform: "uppercase" }}>The WPC Hub</div>
+              <div style={{ fontWeight: 800, fontSize: 16, letterSpacing: 0.5, lineHeight: 1 }}>
+                <span style={{ color: "#1a1a2e" }}>DuraCore</span><span style={{ color: "#E8720C" }}>X</span>
+              </div>
+              <div style={{ fontSize: 8, letterSpacing: 1.5, textTransform: "uppercase", color: "#1a1a2e" }}>
+                The <span style={{ color: "#E8720C" }}>WPC</span> Hub
+              </div>
             </div>
           </div>
           <button onClick={() => navigate("/")}
