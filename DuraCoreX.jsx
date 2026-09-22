@@ -235,10 +235,10 @@ function Navbar() {
 
 // ── Hero ───────────────────────────────────────────────────────
 const HERO_LINES = [
-  { text: "Build Smarter.", color: "#fff" },
-  { text: "Build Stronger.", color: "#c9956d" },
-  { text: "Build Stylish.", color: "#fff" },
-  { text: "Build with WPC.", color: "#fff" },
+  { text: "Build Smarter", color: "#fff" },
+  { text: "Build Stronger", color: "#c9956d" },
+  { text: "Build Stylish", color: "#fff" },
+  { text: "Build with WPC", color: "#fff" },
 ];
 
 function HeroCyclingText() {
