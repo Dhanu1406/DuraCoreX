@@ -107,16 +107,55 @@ function AnimatedCounter({ target, suffix = "", duration = 2000 }) {
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 }
 
-// ── WhatsApp Float Button ──────────────────────────────────────
+// ── Social Float Button (WA + IG cycling) ─────────────────────
+const SOCIAL_STATES = [
+  {
+    href: "https://wa.me/918904086113?text=Hi%20DuraCoreX%2C%20I%20am%20interested%20in%20WPC%20products",
+    bg: "#25D366",
+    shadow: "rgba(37,211,102,0.5)",
+    label: "Chat with us",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white" style={{ flexShrink: 0 }}>
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.854L.057 23.786a.5.5 0 0 0 .65.65l5.932-1.475A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.944 9.944 0 0 1-5.073-1.384l-.363-.215-3.761.936.952-3.671-.236-.375A9.959 9.959 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+      </svg>
+    ),
+  },
+  {
+    href: "https://www.instagram.com/duracorex_wpchub",
+    bg: "linear-gradient(135deg,#f09433,#dc2743,#bc1888)",
+    shadow: "rgba(188,24,136,0.45)",
+    label: "Connect with us",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white" style={{ flexShrink: 0 }}>
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+      </svg>
+    ),
+  },
+];
+
 function WhatsAppButton() {
-  const [hovered, setHovered] = useState(false);
+  const [idx, setIdx] = useState(0);
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    const cycle = () => {
+      setExpanded(true);
+      setTimeout(() => setExpanded(false), 1800);
+      setTimeout(() => setIdx(i => (i + 1) % SOCIAL_STATES.length), 2200);
+    };
+    cycle();
+    const id = setInterval(cycle, 3000);
+    return () => clearInterval(id);
+  }, []);
+
+  const s = SOCIAL_STATES[idx];
   return (
     <a
-      href="https://wa.me/918904086113?text=Hi%20DuraCoreX%2C%20I%20am%20interested%20in%20WPC%20products"
+      href={s.href}
       target="_blank"
       rel="noopener noreferrer"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className="dx-social-float"
       style={{
         position: "fixed",
         bottom: 28,
@@ -124,28 +163,27 @@ function WhatsAppButton() {
         zIndex: 9999,
         display: "flex",
         alignItems: "center",
-        gap: 10,
-        background: "#25D366",
+        gap: expanded ? 10 : 0,
+        background: s.bg,
         color: "#fff",
         borderRadius: 50,
-        padding: hovered ? "14px 22px 14px 18px" : "14px",
-        boxShadow: "0 4px 20px rgba(37,211,102,0.5)",
+        padding: "14px",
+        boxShadow: `0 4px 20px ${s.shadow}`,
         textDecoration: "none",
         fontWeight: 700,
         fontSize: 14,
-        transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
         overflow: "hidden",
         whiteSpace: "nowrap",
+        transition: "background 0.5s ease, box-shadow 0.5s ease",
       }}
     >
-      {/* WhatsApp SVG */}
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="white" style={{ flexShrink: 0 }}>
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.854L.057 23.786a.5.5 0 0 0 .65.65l5.932-1.475A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.944 9.944 0 0 1-5.073-1.384l-.363-.215-3.761.936.952-3.671-.236-.375A9.959 9.959 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-      </svg>
-      <span style={{ maxWidth: hovered ? 120 : 0, opacity: hovered ? 1 : 0, transition: "all 0.3s", overflow: "hidden" }}>
-        Chat with us
-      </span>
+      {s.icon}
+      <span style={{
+        maxWidth: expanded ? 130 : 0,
+        opacity: expanded ? 1 : 0,
+        overflow: "hidden",
+        transition: "max-width 0.4s ease, opacity 0.3s ease",
+      }}>{s.label}</span>
     </a>
   );
 }
@@ -172,7 +210,7 @@ function Navbar() {
         left: 0,
         right: 0,
         zIndex: 1000,
-        background: scrolled ? "rgba(18,22,18,0.97)" : "rgba(18,22,18,0.88)",
+        background: scrolled ? "rgba(28,33,40,0.97)" : "rgba(28,33,40,0.88)",
         backdropFilter: "blur(14px)",
         boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.4)" : "0 1px 8px rgba(0,0,0,0.2)",
         transition: "all 0.35s",
@@ -214,16 +252,29 @@ function Navbar() {
         </div>
 
         {/* Mobile menu */}
-        {menuOpen && (
-          <div style={{ background: "#1a4d2e", padding: "12px 5%", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-            {NAV_LINKS_SIMPLE.map(link => (
-              <button key={link} onClick={() => { setMenuOpen(false); scrollTo(link); }}
-                style={{ display: "block", background: "none", border: "none", color: "#e8f5e9", fontSize: 15, fontWeight: 600, padding: "10px 0", cursor: "pointer", width: "100%", textAlign: "left" }}>
-                {link}
-              </button>
-            ))}
-          </div>
-        )}
+        <div style={{
+          background: "rgba(244,249,246,0.98)",
+          backdropFilter: "blur(12px)",
+          borderTop: menuOpen ? "1px solid rgba(45,106,79,0.2)" : "none",
+          maxHeight: menuOpen ? 400 : 0,
+          overflow: "hidden",
+          transition: "max-height 0.55s cubic-bezier(0.4,0,0.2,1), padding 0.45s ease",
+          padding: menuOpen ? "8px 5% 16px" : "0 5%",
+        }}>
+          {NAV_LINKS_SIMPLE.map((link, i) => (
+            <button key={link} onClick={() => { setMenuOpen(false); scrollTo(link); }}
+              style={{
+                display: "flex", alignItems: "center", gap: 12,
+                background: "none", border: "none",
+                borderBottom: i < NAV_LINKS_SIMPLE.length - 1 ? "1px solid rgba(45,106,79,0.12)" : "none",
+                color: "#1a4d2e", fontSize: 16, fontWeight: 700,
+                padding: "14px 4px", cursor: "pointer", width: "100%", textAlign: "left",
+                letterSpacing: 0.3,
+              }}>
+              {link}
+            </button>
+          ))}
+        </div>
       </nav>
 
       <style>{`
@@ -337,7 +388,6 @@ function Hero() {
             {/* Floresta logo — matches button row width */}
             <div style={{
               background: "linear-gradient(135deg, #e8f5ee, #f4f9f6)",
-              border: "2px solid #2d6a4f",
               borderRadius: 10,
               padding: "8px 16px",
               display: "flex",
@@ -345,7 +395,10 @@ function Hero() {
               justifyContent: "space-between",
               boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
               gap: 12,
+              position: "relative",
+              overflow: "hidden",
             }}>
+              <div className="dx-floresta-shine" />
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: "#8B5E3C" }}>Authorized Channel Partner</span>
                 <span style={{ fontSize: 8, color: "#4a6358", letterSpacing: 0.5 }}>Karnataka</span>
@@ -738,7 +791,7 @@ function FeaturedProductCard({ navigate }) {
 function Products() {
   const navigate = useNavigate();
   return (
-    <section id="products" style={{ padding: "60px 5% 80px", background: "#fff" }}>
+    <section id="products" style={{ padding: "36px 5% 80px", background: "#fff" }}>
       <SectionHeader
         tag="What We Offer"
         title="WPC Products for Every Space"
@@ -910,10 +963,35 @@ function DealerEnquiry() {
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
         {status === "success" ? (
-          <div style={{ background: "linear-gradient(135deg,#1a4d2e,#2d6a4f)", borderRadius: 24, padding: "80px 40px", textAlign: "center", color: "#fff" }}>
-            <div style={{ fontSize: 56, marginBottom: 20 }}>✅</div>
-            <h3 style={{ fontSize: 24, fontWeight: 800, fontFamily: "Georgia,serif", marginBottom: 10 }}>Enquiry Received!</h3>
-            <p style={{ color: "#a8d5b5", fontSize: 15, lineHeight: 1.7 }}>We'll get back to you within 24 hours.</p>
+          <div style={{ borderRadius: 24, overflow: "hidden", border: "1.5px solid #e0ede6", boxShadow: "0 8px 40px rgba(26,77,46,0.08)", background: "#fff", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            {/* Top green bar */}
+            <div style={{ background: "linear-gradient(135deg,#0d2b1a,#1a4d2e)", width: "100%", padding: "40px 40px 32px", textAlign: "center" }}>
+              <div style={{ width: 72, height: 72, borderRadius: "50%", background: "rgba(255,255,255,0.12)", border: "2px solid rgba(255,255,255,0.2)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <h3 style={{ fontSize: 26, fontWeight: 800, fontFamily: "Georgia,serif", color: "#fff", margin: "0 0 8px" }}>Enquiry Received!</h3>
+              <p style={{ color: "#a8d5b5", fontSize: 14, margin: 0 }}>Thank you for reaching out to DuraCoreX</p>
+            </div>
+            {/* Bottom content */}
+            <div style={{ padding: "32px 40px 40px", textAlign: "center", width: "100%", boxSizing: "border-box" }}>
+              <p style={{ color: "#4a6358", fontSize: 15, lineHeight: 1.7, marginBottom: 28 }}>
+                Our team will get back to you within <strong style={{ color: "#1a4d2e" }}>24 hours</strong>.<br/>
+                Meanwhile, feel free to reach us directly on WhatsApp.
+              </p>
+              <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+                <a href="https://wa.me/918904086113" target="_blank" rel="noopener noreferrer"
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#25D366", color: "#fff", borderRadius: 10, padding: "12px 24px", fontWeight: 700, fontSize: 14, textDecoration: "none" }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.532 5.854L.057 23.786a.5.5 0 0 0 .65.65l5.932-1.475A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.944 9.944 0 0 1-5.073-1.384l-.363-.215-3.761.936.952-3.671-.236-.375A9.959 9.959 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                  WhatsApp Us
+                </a>
+                <a href="tel:+918904086113"
+                  style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#f4f9f6", color: "#1a4d2e", border: "1.5px solid #d0e8d8", borderRadius: 10, padding: "12px 24px", fontWeight: 700, fontSize: 14, textDecoration: "none" }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 5.55 5.55l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  Call Us
+                </a>
+              </div>
+              <p style={{ marginTop: 24, fontSize: 12, color: "#a8d5b5" }}>© DuraCoreX — The WPC Hub · Karnataka's Authorized Floresta WPC Partner</p>
+            </div>
           </div>
         ) : (
           <div className="dx-enquiry-card" style={{ display: "grid", gridTemplateColumns: "1fr 1.6fr", gap: 0, borderRadius: 24, overflow: "hidden", border: "1.5px solid #e0ede6", boxShadow: "0 8px 40px rgba(26,77,46,0.08)" }}>
@@ -946,21 +1024,36 @@ function DealerEnquiry() {
             {/* Right panel — form */}
             <form onSubmit={async e => {
               e.preventDefault();
+              if (!form.name.trim()) { alert("Please enter your full name."); return; }
+              if (!form.business.trim()) { alert("Please enter your business name."); return; }
+              if (!form.city.trim()) { alert("Please enter your city."); return; }
+              if (!form.phone.trim() || !/^\d{10}$/.test(form.phone.trim())) { alert("Please enter a valid 10-digit phone number."); return; }
+              if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) { alert("Please enter a valid email address."); return; }
               setStatus("sending");
+              const payload = {
+                enquiry_type: form.type,
+                from_name:    form.name,
+                business:     form.business,
+                city:         form.city,
+                phone:        form.phone,
+                reply_to:     form.email || "—",
+                message:      form.message || "—",
+              };
               try {
+                // Email 1 — notify owner
                 await window.emailjs.send(
                   window.EMAILJS_SERVICE_ID,
-                  window.EMAILJS_TEMPLATE_ID,
-                  {
-                    enquiry_type: form.type,
-                    from_name:    form.name,
-                    business:     form.business,
-                    city:         form.city,
-                    phone:        form.phone,
-                    reply_to:     form.email,
-                    message:      form.message || "—",
-                  }
+                  window.EMAILJS_TEMPLATE_OWNER,
+                  payload
                 );
+                // Email 2 — thank you to customer (only if they gave email)
+                if (form.email.trim()) {
+                  await window.emailjs.send(
+                    window.EMAILJS_SERVICE_ID,
+                    window.EMAILJS_TEMPLATE_CUSTOMER,
+                    payload
+                  );
+                }
                 setStatus("success");
               } catch (err) {
                 console.error("EmailJS error:", err);
@@ -991,11 +1084,15 @@ function DealerEnquiry() {
                   { name: "name",     label: "Full Name",      placeholder: "Your full name",      type: "text" },
                   { name: "business", label: "Business Name",  placeholder: "Company / shop name", type: "text" },
                   { name: "city",     label: "City / District",placeholder: "City or district",    type: "text" },
-                  { name: "phone",    label: "Phone Number",   placeholder: "+91 XXXXX XXXXX",     type: "tel" },
+                  { name: "phone",    label: "Phone Number",   placeholder: "10-digit mobile number", type: "tel" },
                 ].map(f => (
                   <div key={f.name}>
                     <label style={{ display: "block", color: "#4a6358", fontSize: 11, fontWeight: 700, letterSpacing: 0.5, textTransform: "uppercase", marginBottom: 5 }}>{f.label}</label>
-                    <input type={f.type} name={f.name} value={form[f.name]} onChange={handle} placeholder={f.placeholder} required style={inp}
+                    <input type={f.type} name={f.name} value={form[f.name]}
+                      onChange={f.name === "phone" ? e => { if (/^\d{0,10}$/.test(e.target.value)) handle(e); } : handle}
+                      placeholder={f.placeholder} required style={inp}
+                      maxLength={f.name === "phone" ? 10 : undefined}
+                      inputMode={f.name === "phone" ? "numeric" : undefined}
                       onFocus={e => { e.target.style.borderColor = "#1a4d2e"; e.target.style.background = "#fff"; }}
                       onBlur={e => { e.target.style.borderColor = "#dde8e2"; e.target.style.background = "#fafcfb"; }} />
                   </div>
@@ -1167,6 +1264,24 @@ const GLOBAL_CSS = `
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+  section[id] { scroll-margin-top: 64px; }
+
+  @keyframes floresta-shine {
+    0%   { left: -80%; }
+    50%  { left: 130%; }
+    100% { left: 130%; }
+  }
+  .dx-floresta-shine {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: -80%;
+    width: 50%;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%);
+    transform: skewX(-20deg);
+    animation: floresta-shine 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+
 
   @keyframes borderSpin {
     0%   { background-position: 0% 50%; }
@@ -1251,8 +1366,8 @@ const GLOBAL_CSS = `
     /* Footer */
     footer > div { flex-direction: column !important; align-items: flex-start !important; gap: 14px !important; }
 
-    /* WhatsApp float */
-    a[href*="wa.me"] { bottom: 14px !important; right: 14px !important; padding: 12px !important; }
+    /* Social float */
+    .dx-social-float { bottom: 14px !important; right: 14px !important; padding: 12px !important; }
   }
 
   /* ── Small mobile (≤400px) ── */

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const ALL_PRODUCTS = [
@@ -76,6 +76,9 @@ export default function ProductsPage() {
   const [lightbox, setLightbox] = useState(null); // { src, title }
   const navigate = useNavigate();
 
+  // Always start at the top when navigating to this page
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
   const filtered = activeCategory === "All"
     ? ALL_PRODUCTS
     : ALL_PRODUCTS.filter(p => p.category === activeCategory);
@@ -84,21 +87,23 @@ export default function ProductsPage() {
     <div style={{ fontFamily: "'Segoe UI',system-ui,-apple-system,sans-serif", minHeight: "100vh", background: "#f4f9f6" }}>
 
       {/* ── Navbar ── */}
-      <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(255,255,255,0.97)", backdropFilter: "blur(14px)", boxShadow: "0 2px 16px rgba(0,0,0,0.07)", padding: "0 5%" }}>
+      <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(28,33,40,0.97)", backdropFilter: "blur(14px)", boxShadow: "0 2px 16px rgba(0,0,0,0.4)", padding: "0 5%" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }} onClick={() => navigate("/")}>
             <DXLogo size={34} />
             <div>
-              <div style={{ fontWeight: 800, fontSize: 16, letterSpacing: 0.5, lineHeight: 1 }}>
-                <span style={{ color: "#1a1a2e" }}>DuraCore</span><span style={{ color: "#E8720C" }}>X</span>
+              <div style={{ fontWeight: 800, fontSize: 16, letterSpacing: 0.5, lineHeight: 1.1 }}>
+                <span style={{ color: "#ffffff" }}>DuraCore</span><span style={{ color: "#E8720C" }}>X</span>
               </div>
-              <div style={{ fontSize: 8, letterSpacing: 1.5, textTransform: "uppercase", color: "#1a1a2e" }}>
-                The <span style={{ color: "#E8720C" }}>WPC</span> Hub
+              <div style={{ fontSize: 8, letterSpacing: 2, textTransform: "uppercase", color: "rgba(255,255,255,0.75)", display: "flex", alignItems: "center", gap: 4 }}>
+                <span style={{ color: "#E8720C", fontSize: 9 }}>—</span>
+                <span>The <span style={{ color: "#E8720C" }}>WPC</span> HUB</span>
+                <span style={{ color: "#E8720C", fontSize: 9 }}>—</span>
               </div>
             </div>
           </div>
           <button onClick={() => navigate("/")}
-            style={{ background: "none", border: "1.5px solid #2d6a4f", color: "#1a4d2e", borderRadius: 8, padding: "8px 20px", fontWeight: 600, fontSize: 13, cursor: "pointer" }}>
+            style={{ background: "none", border: "1.5px solid rgba(255,255,255,0.5)", color: "#ffffff", borderRadius: 8, padding: "8px 20px", fontWeight: 600, fontSize: 13, cursor: "pointer" }}>
             ← Back to Home
           </button>
         </div>
