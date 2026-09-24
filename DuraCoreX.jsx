@@ -389,7 +389,7 @@ function TypewriterFeatures() {
       {/* Typing text + dots */}
       <div>
         <div style={{
-          fontSize: 13.5, fontWeight: 700, lineHeight: 1.4,
+          fontSize: 16, fontWeight: 700, lineHeight: 1.4,
           color: feature.hi ? "#f0d5bc" : "rgba(255,255,255,0.92)",
           minHeight: 20, display: "flex", alignItems: "center",
         }}>
