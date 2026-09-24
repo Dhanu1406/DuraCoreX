@@ -328,6 +328,84 @@ function HeroCyclingText() {
   );
 }
 
+const HERO_FEATURES = [
+  { d: "M20 6 9 17 4 12",                                                                              label: "100% Genuine — 'Actual' WPC",    hi: true },
+  { d: "M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zM12 8v4l3 3",                                         label: "European Technology",             hi: true },
+  { d: "M12 2C8 7 4 9 4 14a8 8 0 0 0 16 0c0-5-4-7-8-12z",                                            label: "100% Waterproof & Moisture Proof" },
+  { d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",                                                 label: "Termite & Borer Resistant" },
+  { d: "M12 2c0 6-6 8-6 14a6 6 0 0 0 12 0c0-6-6-8-6-14z",                                            label: "Fire Retardant Grade" },
+  { d: "M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z",                                              label: "Eco-Friendly & Sustainable" },
+  { d: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z", label: "Carpenter Friendly" },
+  { d: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",                                  label: "Screwable & Nailable" },
+  { d: "M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM12 18v3M8 21h8",   label: "Router & CNC Friendly" },
+  { d: "M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zM12 6v6l4 2",                                         label: "High Screw Holding Capacity" },
+  { d: "M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z",                                      label: "Low Maintenance" },
+  { d: "M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-6-6zM9 3v6h6",                    label: "No Harmful Chemicals" },
+];
+
+function TypewriterFeatures() {
+  const [idx, setIdx] = useState(0);
+  const [text, setText] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = HERO_FEATURES[idx].label;
+    let timer;
+    if (!deleting) {
+      if (text.length < current.length) {
+        timer = setTimeout(() => setText(current.slice(0, text.length + 1)), 55);
+      } else {
+        timer = setTimeout(() => setDeleting(true), 2000);
+      }
+    } else {
+      if (text.length > 0) {
+        timer = setTimeout(() => setText(text.slice(0, -1)), 25);
+      } else {
+        setDeleting(false);
+        setIdx(i => (i + 1) % HERO_FEATURES.length);
+      }
+    }
+    return () => clearTimeout(timer);
+  }, [text, deleting, idx]);
+
+  const feature = HERO_FEATURES[idx];
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      {/* Icon */}
+      <div style={{
+        width: 40, height: 40, borderRadius: "50%", flexShrink: 0,
+        border: `1.5px solid ${feature.hi ? "rgba(201,149,109,0.8)" : "rgba(255,255,255,0.35)"}`,
+        background: feature.hi ? "rgba(139,94,60,0.22)" : "rgba(255,255,255,0.07)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        transition: "border-color 0.4s, background 0.4s",
+      }}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke={feature.hi ? "#f0c898" : "rgba(255,255,255,0.9)"}
+          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d={feature.d} />
+        </svg>
+      </div>
+      {/* Typing text + dots */}
+      <div>
+        <div style={{
+          fontSize: 13.5, fontWeight: 700, lineHeight: 1.4,
+          color: feature.hi ? "#f0d5bc" : "rgba(255,255,255,0.92)",
+          minHeight: 20, display: "flex", alignItems: "center",
+        }}>
+          <span>{text}</span>
+          <span style={{
+            display: "inline-block", width: 2, height: "1em",
+            background: feature.hi ? "#f0c898" : "rgba(255,255,255,0.8)",
+            marginLeft: 2, verticalAlign: "middle",
+            animation: "dx-blink 0.75s step-end infinite",
+          }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section id="home" style={{
@@ -405,49 +483,16 @@ function Hero() {
               </div>
               <img src="/floresta-logo-full.png" alt="Floresta WPC" style={{ height: 44, width: "auto", objectFit: "contain", borderRadius: 6 }} />
             </div>
+
+            {/* Typewriter features — below Floresta card */}
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 14, marginTop: 4 }}>
+              <TypewriterFeatures />
+            </div>
           </div>
         </div>
 
-        {/* Right — feature icons list */}
-        <div className="hero-card" style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[
-              { d: "M20 6 9 17 4 12",                                                                              label: "100% Genuine — 'Actual' WPC",    hi: true },
-              { d: "M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zM12 8v4l3 3",                                         label: "European Technology",             hi: true },
-              { d: "M12 2C8 7 4 9 4 14a8 8 0 0 0 16 0c0-5-4-7-8-12z",                                            label: "100% Waterproof & Moisture Proof" },
-              { d: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",                                                 label: "Termite & Borer Resistant" },
-              { d: "M12 2c0 6-6 8-6 14a6 6 0 0 0 12 0c0-6-6-8-6-14z",                                            label: "Fire Retardant Grade" },
-              { d: "M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z",                                              label: "Eco-Friendly & Sustainable" },
-              { d: "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z", label: "Carpenter Friendly" },
-              { d: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",                                  label: "Screwable & Nailable" },
-              { d: "M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM12 18v3M8 21h8",   label: "Router & CNC Friendly" },
-              { d: "M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zM12 6v6l4 2",                                         label: "High Screw Holding Capacity" },
-              { d: "M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z",                                      label: "Low Maintenance" },
-              { d: "M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-6-6zM9 3v6h6",                    label: "No Harmful Chemicals" },
-            ].map((item) => (
-              <div key={item.label} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
-                  border: `1.5px solid ${item.hi ? "rgba(201,149,109,0.9)" : "rgba(255,255,255,0.4)"}`,
-                  background: item.hi ? "rgba(139,94,60,0.28)" : "rgba(0,0,0,0.25)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                }}>
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                    stroke={item.hi ? "#f0c898" : "rgba(255,255,255,0.9)"}
-                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d={item.d} />
-                  </svg>
-                </div>
-                <span style={{
-                  color: item.hi ? "#f0d5bc" : "rgba(255,255,255,0.9)",
-                  fontSize: 12.5,
-                  fontWeight: item.hi ? 700 : 500,
-                  lineHeight: 1.3,
-                }}>{item.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Right — empty, hero image shows through */}
+        <div className="hero-card" />
       </div>
 
       {/* Scroll hint */}
@@ -1266,6 +1311,10 @@ const GLOBAL_CSS = `
   body { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
   section[id] { scroll-margin-top: 64px; }
 
+  @keyframes dx-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
   @keyframes floresta-shine {
     0%   { left: -80%; }
     50%  { left: 130%; }
