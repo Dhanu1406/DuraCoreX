@@ -481,7 +481,7 @@ function Hero() {
                 <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: "#8B5E3C" }}>Authorized Channel Partner</span>
                 <span style={{ fontSize: 8, color: "#4a6358", letterSpacing: 0.5 }}>Karnataka</span>
               </div>
-              <img src="/floresta-logo-full.png" alt="Floresta WPC" style={{ height: 44, width: "auto", objectFit: "contain", borderRadius: 6 }} />
+              <img src="/floresta-logo-full.png" alt="Floresta WPC" style={{ height: 58, width: "auto", objectFit: "contain", borderRadius: 6 }} />
             </div>
 
             {/* Typewriter features — below Floresta card */}
