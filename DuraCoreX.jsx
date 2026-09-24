@@ -447,7 +447,7 @@ function Hero() {
           </p>
 
           {/* Buttons + logo box — constrained to button row width */}
-          <div className="dx-hero-content-wrap" style={{ display: "inline-flex", flexDirection: "column", gap: 10 }}>
+          <div className="dx-hero-content-wrap" style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 460 }}>
             <div className="dx-hero-btns" style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <button onClick={() => scrollTo("products")}
                 style={{ background: "#8B5E3C", color: "#fff", border: "none", borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 14, cursor: "pointer", transition: "all 0.2s", boxShadow: "0 4px 20px rgba(139,94,60,0.4)" }}
@@ -475,6 +475,8 @@ function Hero() {
               gap: 12,
               position: "relative",
               overflow: "hidden",
+              width: "100%",
+              boxSizing: "border-box",
             }}>
               <div className="dx-floresta-shine" />
               <div style={{ display: "flex", flexDirection: "column" }}>
@@ -1355,7 +1357,7 @@ const GLOBAL_CSS = `
     #home { min-height: 100dvh !important; padding: 80px 6% 48px !important; display: flex !important; align-items: center !important; }
     .dx-hero-left { text-align: center !important; }
     .dx-hero-badge { margin: 0 auto 14px !important; }
-    .dx-hero-content-wrap { display: flex !important; flex-direction: column !important; align-items: center !important; width: 100% !important; }
+    .dx-hero-content-wrap { display: flex !important; flex-direction: column !important; align-items: stretch !important; width: 100% !important; max-width: 100% !important; }
     .dx-hero-btns { justify-content: center !important; width: 100% !important; }
     .dx-hero-btns button { flex: 1 !important; min-width: 130px !important; max-width: 200px !important; }
 
