@@ -48,12 +48,10 @@ const GALLERY_ITEMS = [
 ];
 
 const DEALERS = [
-  { name: "DuraCoreX — Bangalore HQ",   area: "Koramangala, Bangalore",    phone: "+91 98XXX XXXXX" },
-  { name: "DuraCoreX — Mysore",         area: "Saraswathipuram, Mysore",   phone: "+91 97XXX XXXXX" },
-  { name: "DuraCoreX — Hubli",          area: "Deshpande Nagar, Hubli",    phone: "+91 96XXX XXXXX" },
-  { name: "DuraCoreX — Mangalore",      area: "Hampankatta, Mangalore",    phone: "+91 95XXX XXXXX" },
-  { name: "DuraCoreX — Belgaum",        area: "Shahapur, Belgaum",         phone: "+91 94XXX XXXXX" },
-  { name: "DuraCoreX — Hassan",         area: "BM Road, Hassan",           phone: "+91 93XXX XXXXX" },
+  { name: "DuraCoreX — Bangalore",   area: "Bangalore, Karnataka",    phone: "+91 89040 86113" },
+  { name: "DuraCoreX — Hosapete",    area: "Hosapete, Karnataka",     phone: "+91 89040 86113" },
+  { name: "DuraCoreX — Karkala",     area: "Karkala, Karnataka",      phone: "+91 89040 86113" },
+  { name: "DuraCoreX — Kundapura",   area: "Kundapura, Karnataka",    phone: "+91 89040 86113" },
 ];
 
 // ── Helpers ────────────────────────────────────────────────────
@@ -1219,7 +1217,7 @@ function Contact() {
           {/* Left — info rows in one card */}
           <div style={{ background: "#fff", borderRadius: 16, border: "1.5px solid #e0ede6", overflow: "hidden" }}>
             {[
-              { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a4d2e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>, label: "Location", value: "DuraCoreX — The WPC Hub", sub: "Hemmadi, Kundapura · Bangalore, Karnataka" },
+              { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a4d2e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>, label: "Location", value: "DuraCoreX — The WPC Hub", sub: "Bangalore · Hosapete · Karkala · Kundapura" },
               { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a4d2e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>, label: "Phone", value: "+91 8904086113", sub: "Mon – Sat, 9:00 AM – 6:00 PM" },
               { svg: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a4d2e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, label: "Hours", value: "Monday – Saturday", sub: "9:00 AM – 6:00 PM  ·  Sunday Closed" },
             ].map((item, i, arr) => (

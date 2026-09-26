@@ -21,17 +21,26 @@ const ALL_PRODUCTS = [
     features: ["Natural Wood Look", "Fire Retardant", "Screwable & Nailable", "Router Friendly"],
   },
   {
+    id: 7,
+    category: "Frames",
+    title: "WPC Door Frames — Premium",
+    desc: "Heavy-duty WPC door frames with superior screw holding and dimensional stability for premium installations.",
+    tag: null,
+    img: "/door3.png",
+    features: ["Premium Grade", "High Screw Holding", "Termite Proof", "Zero Maintenance"],
+  },
+  {
     id: 3,
-    category: "Bathroom Vanities",
+    category: "Windows",
     title: "WPC Window Frames",
     desc: "Stays true in all weather — ideal for bathrooms, kitchens, and high-humidity zones.",
     tag: null,
-    img: "/Bathroom.png",
+    img: "/window2.jpeg",
     features: ["All-Weather Stable", "Moisture Proof", "Eco-Friendly", "Long Lasting"],
   },
   {
     id: 4,
-    category: "Shutters",
+    category: "Windows",
     title: "WPC Window Shutter Frames",
     desc: "Robust composite shutter frames resistant to borer, termite, and seasonal expansion.",
     tag: null,
@@ -58,7 +67,7 @@ const ALL_PRODUCTS = [
   },
 ];
 
-const CATEGORIES = ["All", "Frames", "Shutters", "Bathroom Vanities", "Gates", "Interiors"];
+const CATEGORIES = ["All", "Frames", "Shutters", "Windows", "Gates", "Interiors"];
 
 function DXLogo({ size = 34 }) {
   return (
